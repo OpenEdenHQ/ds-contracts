@@ -5,8 +5,9 @@ dotenv.config();
 
 async function main() {
 
-    const dsProxyFactoryContract = await deployContract("DSProxyFactory");
     const dsGuardFactoryContract = await deployContract("DSGuardFactory");
+    const dsProxyFactoryContract = await deployContract("DSProxyFactory");
+    const proxyRegistryContract = await deployContract("ProxyRegistry", [dsProxyFactoryContract.address]);
 }
 
 main().catch((error) => {

@@ -20,8 +20,8 @@ export async function save(name: string, content: any) {
 
 export async function deployContract<T extends BaseContract>(
     contractName: string, 
-    signer: Signer|undefined = undefined, 
     args: any[] = [],
+    signer: Signer|undefined = undefined, 
     isTest = false
 ): Promise<T>{
     console.log(`----------------------------Deploy ${contractName} --------------------------------`);
@@ -36,24 +36,23 @@ export async function deployContract<T extends BaseContract>(
     console.log(`${contractName} deployed to:`, contract.address);
     if (!isTest) {
         await save(contractName, {
-            address: contract.address
+            address: contract.address,
+            args: args
         });
     }
     return contract;
 };
 
 export async function verifyContract (
-    contractName: string, 
-    args: any[] = []
+    contractName: string
 ) {
     console.log(`----------------------------Verify ${contractName} --------------------------------`);
-    
-    const contractAddress = (await load(contractName)).address
+    const contractDeploymentInfo = await load(contractName);
+    const contractAddress = contractDeploymentInfo.address
+    const contractArgs = contractDeploymentInfo.args
     await hre.run("verify:verify", {
         address: contractAddress,
-        constructorArguments: [
-            ...args
-        ],
+        constructorArguments: contractArgs,
     });
     
     console.log(`---------------------------Verified ${contractName}----------------------------------`);
