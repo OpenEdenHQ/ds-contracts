@@ -52,7 +52,9 @@ export async function verifyContract (
     const contractArgs = contractDeploymentInfo.args
     await hre.run("verify:verify", {
         address: contractAddress,
-        constructorArguments: contractArgs,
+        constructorArguments: [
+            ...contractArgs
+        ],
     });
     
     console.log(`---------------------------Verified ${contractName}----------------------------------`);

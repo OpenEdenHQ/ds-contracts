@@ -34,6 +34,12 @@ const MAIN_ETH_RPC_URL = process.env.MAIN_ETH_RPC_URL;
 const config = {
   defaultNetwork: "hardhat",
   networks: {
+    local: {
+      url: 'http://127.0.0.1:8545',
+      timeout: 1000000,
+      gasPrice: 170000000000,
+      name: 'mainnet',
+    },
     hardhat: {
       forking: {
           url: process.env.MAIN_ETH_RPC_URL,
